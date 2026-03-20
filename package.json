@@ -9,15 +9,65 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "workingContext",
+          "title": "Working Context",
+          "icon": "media/working-context.svg"
+        }
+      ]
+    },
+    "views": {
+      "workingContext": [
+        {
+          "id": "workingContextView",
+          "name": "Working Context"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "working-context.helloWorld",
-        "title": "Hello World"
+        "command": "working-context.openFile",
+        "title": "Open File"
+      },
+      {
+        "command": "working-context.removeFile",
+        "title": "Remove from Working Context",
+        "icon": "$(close)"
+      },
+      {
+        "command": "working-context.clearAll",
+        "title": "Clear All",
+        "icon": "$(clear-all)"
       }
-    ]
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "working-context.clearAll",
+          "when": "view == workingContextView",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "working-context.removeFile",
+          "when": "view == workingContextView && viewItem == workingContextFile",
+          "group": "inline"
+        },
+        {
+          "command": "working-context.removeFile",
+          "when": "view == workingContextView && viewItem == workingContextFile",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
